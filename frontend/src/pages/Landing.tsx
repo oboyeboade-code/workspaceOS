@@ -23,7 +23,7 @@ const contactChannels = [
     icon: Mail,
     label: "Email",
     // value: "support@workspaceos.app",
-    value: "support@workspace.app",
+    value: "support@workspaceos",
     description: "We typically reply within a business day.",
     href: "mailto:noreplyworkspaceos@gmail.com",
     cta: "Send email",
