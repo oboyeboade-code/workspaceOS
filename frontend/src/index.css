@@ -1,0 +1,196 @@
+@import url('https://fonts.googleapis.com/css2?family=Sora:wght@400;500;600;700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700&family=JetBrains+Mono:wght@500&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Workspace OS — modern HR/management design system.
+   All colors HSL. Tokens drive every surface.
+*/
+
+@layer base {
+  :root {
+    /* Surfaces — warm off-white & ink */
+    --background: 40 30% 97%;
+    --foreground: 220 40% 11%;
+
+    --card: 0 0% 100%;
+    --card-foreground: 220 40% 11%;
+
+    --popover: 0 0% 100%;
+    --popover-foreground: 220 40% 11%;
+
+    /* Primary — deep ink/slate */
+    --primary: 222 47% 12%;
+    --primary-foreground: 40 30% 97%;
+
+    /* Accent — confident emerald */
+    --accent: 158 64% 42%;
+    --accent-foreground: 0 0% 100%;
+    --accent-soft: 158 60% 94%;
+
+    /* Secondary — quiet stone */
+    --secondary: 40 20% 92%;
+    --secondary-foreground: 222 47% 12%;
+
+    --muted: 40 18% 94%;
+    --muted-foreground: 220 12% 42%;
+
+    --destructive: 0 72% 50%;
+    --destructive-foreground: 0 0% 100%;
+
+    --warning: 38 92% 50%;
+    --success: 158 64% 42%;
+    --info: 217 91% 60%;
+
+    --border: 220 14% 88%;
+    --input: 220 14% 88%;
+    --ring: 158 64% 42%;
+
+    --radius: 0.875rem;
+
+    /* Gradients & shadows */
+    --gradient-hero: radial-gradient(1200px 600px at 80% -10%, hsl(158 64% 42% / 0.18), transparent 60%),
+                     radial-gradient(800px 500px at 0% 10%, hsl(217 91% 60% / 0.12), transparent 55%),
+                     linear-gradient(180deg, hsl(40 30% 97%) 0%, hsl(40 30% 97%) 100%);
+    --gradient-ink: linear-gradient(135deg, hsl(222 47% 12%) 0%, hsl(222 47% 18%) 100%);
+    --gradient-emerald: linear-gradient(135deg, hsl(158 64% 42%) 0%, hsl(170 70% 38%) 100%);
+    --gradient-glow: radial-gradient(600px circle at var(--mx, 50%) var(--my, 50%), hsl(158 64% 42% / 0.15), transparent 40%);
+
+    --shadow-sm: 0 1px 2px hsl(220 40% 11% / 0.04);
+    --shadow-card: 0 1px 0 hsl(220 14% 88%), 0 8px 24px -12px hsl(220 40% 11% / 0.08);
+    --shadow-elevated: 0 20px 50px -20px hsl(222 47% 12% / 0.25);
+    --shadow-emerald: 0 14px 40px -14px hsl(158 64% 42% / 0.55);
+
+    --font-display: 'Sora', ui-sans-serif, system-ui;
+    --font-body: 'Plus Jakarta Sans', ui-sans-serif, system-ui;
+    --font-mono: 'JetBrains Mono', ui-monospace, monospace;
+
+    --transition-base: 200ms cubic-bezier(0.4, 0, 0.2, 1);
+    --transition-spring: 400ms cubic-bezier(0.34, 1.56, 0.64, 1);
+
+    --sidebar-background: 40 30% 97%;
+    --sidebar-foreground: 220 40% 11%;
+    --sidebar-primary: 222 47% 12%;
+    --sidebar-primary-foreground: 40 30% 97%;
+    --sidebar-accent: 40 20% 92%;
+    --sidebar-accent-foreground: 222 47% 12%;
+    --sidebar-border: 220 14% 88%;
+    --sidebar-ring: 158 64% 42%;
+  }
+
+  .dark {
+    --background: 222 40% 7%;
+    --foreground: 40 30% 96%;
+    --card: 222 38% 10%;
+    --card-foreground: 40 30% 96%;
+    --popover: 222 38% 10%;
+    --popover-foreground: 40 30% 96%;
+    --primary: 40 30% 96%;
+    --primary-foreground: 222 47% 12%;
+    --secondary: 222 30% 14%;
+    --secondary-foreground: 40 30% 96%;
+    --muted: 222 30% 14%;
+    --muted-foreground: 220 12% 65%;
+    --accent: 158 64% 48%;
+    --accent-foreground: 222 47% 8%;
+    --accent-soft: 158 40% 14%;
+    --border: 222 30% 18%;
+    --input: 222 30% 18%;
+    --ring: 158 64% 48%;
+  }
+}
+
+@layer base {
+  * { @apply border-border; }
+  html { -webkit-font-smoothing: antialiased; }
+  body {
+    @apply bg-background text-foreground;
+    font-family: var(--font-body);
+    font-feature-settings: 'ss01', 'cv11';
+  }
+  h1, h2, h3, h4, h5 { font-family: var(--font-display); letter-spacing: -0.02em; }
+}
+
+@layer components {
+  .font-display { font-family: var(--font-display); }
+  .font-mono { font-family: var(--font-mono); }
+
+  .container-app {
+    @apply mx-auto w-full max-w-7xl px-5 sm:px-8;
+  }
+
+  .surface-card {
+    @apply rounded-[var(--radius)] bg-card border border-border;
+    box-shadow: var(--shadow-card);
+  }
+
+  .chip {
+    @apply inline-flex items-center gap-1.5 rounded-full border border-border bg-card px-3 py-1 text-xs font-medium text-muted-foreground;
+  }
+
+  .chip-accent {
+    @apply inline-flex items-center gap-1.5 rounded-full px-3 py-1 text-xs font-semibold;
+    background: hsl(var(--accent-soft));
+    color: hsl(var(--accent));
+  }
+
+  .grid-bg {
+    background-image:
+      linear-gradient(hsl(var(--border)) 1px, transparent 1px),
+      linear-gradient(90deg, hsl(var(--border)) 1px, transparent 1px);
+    background-size: 56px 56px;
+    mask-image: radial-gradient(ellipse at center, black 30%, transparent 75%);
+  }
+
+  .ring-focus {
+    @apply focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background;
+  }
+
+  .text-gradient-emerald {
+    background: var(--gradient-emerald);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+  }
+
+  .noise::before {
+    content: '';
+    position: absolute; inset: 0;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.5'/%3E%3C/svg%3E");
+    opacity: 0.04; pointer-events: none; mix-blend-mode: overlay;
+  }
+}
+
+@layer utilities {
+  .bg-hero { background: var(--gradient-hero); }
+  .bg-ink { background: var(--gradient-ink); }
+  .bg-emerald-grad { background: var(--gradient-emerald); }
+  .shadow-card { box-shadow: var(--shadow-card); }
+  .shadow-elevated { box-shadow: var(--shadow-elevated); }
+  .shadow-emerald { box-shadow: var(--shadow-emerald); }
+  .transition-base { transition: all var(--transition-base); }
+  .transition-spring { transition: all var(--transition-spring); }
+
+  @keyframes float-up {
+    0% { opacity: 0; transform: translateY(12px); }
+    100% { opacity: 1; transform: translateY(0); }
+  }
+  .animate-float-up { animation: float-up 0.6s cubic-bezier(0.4,0,0.2,1) both; }
+
+  @keyframes shimmer {
+    0% { background-position: -200% 0; }
+    100% { background-position: 200% 0; }
+  }
+  .animate-shimmer {
+    background: linear-gradient(90deg, transparent, hsl(var(--accent) / 0.15), transparent);
+    background-size: 200% 100%;
+    animation: shimmer 2.5s linear infinite;
+  }
+
+  @keyframes pulse-dot {
+    0%, 100% { opacity: 1; transform: scale(1); }
+    50% { opacity: 0.5; transform: scale(0.85); }
+  }
+  .animate-pulse-dot { animation: pulse-dot 2s ease-in-out infinite; }
+}
