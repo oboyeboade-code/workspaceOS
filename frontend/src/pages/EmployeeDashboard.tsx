@@ -3,7 +3,19 @@ import { PortalShell } from "@/components/PortalShell";
 import { api, Worker } from "@/lib/api";
 import { Mail, Phone, MapPin, Calendar, Star, ShieldCheck, Briefcase } from "lucide-react";
 
-export default function EmployeeDashboard() {
+function Field({ icon: Icon, label, value, mono }: { icon: any; label: string; value: string; mono?: boolean }) {
+  return (
+    <div className="rounded-xl border border-border bg-secondary/40 p-4">
+      <div className="flex items-center gap-2 text-muted-foreground">
+        <Icon className="h-3.5 w-3.5" />
+        <span className="text-xs uppercase tracking-wider">{label}</span>
+      </div>
+      <p className={`mt-1.5 truncate text-sm font-semibold text-foreground ${mono ? "font-mono" : ""}`}>{value}</p>
+    </div>
+  );
+}
+
+const EmployeeDashboard = () => {
   const [me, setMe] = useState<Worker | null>(null);
   const [loading, setLoading] = useState(true);
 
@@ -91,14 +103,4 @@ export default function EmployeeDashboard() {
   );
 }
 
-function Field({ icon: Icon, label, value, mono }: { icon: any; label: string; value: string; mono?: boolean }) {
-  return (
-    <div className="rounded-xl border border-border bg-secondary/40 p-4">
-      <div className="flex items-center gap-2 text-muted-foreground">
-        <Icon className="h-3.5 w-3.5" />
-        <span className="text-xs uppercase tracking-wider">{label}</span>
-      </div>
-      <p className={`mt-1.5 truncate text-sm font-semibold text-foreground ${mono ? "font-mono" : ""}`}>{value}</p>
-    </div>
-  );
-}
+export default EmployeeDashboard;

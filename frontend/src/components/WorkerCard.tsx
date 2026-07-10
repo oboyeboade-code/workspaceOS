@@ -2,11 +2,11 @@ import { Worker } from "@/lib/api";
 import { Link } from "react-router-dom";
 import { ArrowUpRight } from "lucide-react";
 
-function initials(name: string) {
+const initials = (name: string) => {
   return name.split(/\s+/).filter(Boolean).slice(0, 2).map(s => s[0]?.toUpperCase()).join("");
 }
 
-export function WorkerCard({ worker }: { worker: Worker }) {
+export const WorkerCard = ({ worker }: { worker: Worker }) => {
   const isActive = (worker.status || "").toLowerCase() === "active";
   return (
     <Link to={`/employee/${worker._id}`} className="group block">

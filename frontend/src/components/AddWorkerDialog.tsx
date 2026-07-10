@@ -10,13 +10,13 @@ import { toast } from "sonner";
 type Form = { name: string; role: string; email: string; phone: string; address: string; adminCode: string; };
 const empty: Form = { name: "", role: "", email: "", phone: "", address: "", adminCode: "" };
 
-export function AddWorkerDialog({ 
+export const AddWorkerDialog = ({ 
   defaultAdminCode, 
   onCreated 
 }: { 
   defaultAdminCode: string; 
   onCreated: () => void 
-}) {
+}) => {
   const [open, setOpen] = useState(false);
   const [loading, setLoading] = useState(false);
   const [form, setForm] = useState<Form>(empty);

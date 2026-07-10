@@ -9,19 +9,57 @@ import { api, ApiResponse, ListWorkersResponse } from "@/lib/api";
 import { Search, Users, AlertCircle, DollarSign, Copy, Check } from "lucide-react";
 import { toast } from "sonner";
 
-export default function EmployerDashboard() {
+const Stat = ({
+  icon: Icon,
+  label,
+  value,
+  accent,
+  mono,
+}: {
+  icon: any;
+  label: string;
+  value: string;
+  accent?: boolean;
+  mono?: boolean;
+}) => {
+  return (
+    <div className="surface-card flex items-center gap-4 p-5">
+      <div
+        className={`flex h-11 w-11 items-center justify-center rounded-xl ${
+          accent ? "bg-red-500/10 text-red-500" : "bg-secondary text-foreground"
+        }`}
+      >
+        <Icon className="h-5 w-5" />
+      </div>
+      <div>
+        <p className="text-xs uppercase tracking-wider text-muted-foreground">
+          {label}
+        </p>
+        <p
+          className={`font-display text-2xl font-bold ${
+            mono ? "font-mono" : ""
+          }`}
+        >
+          {value}
+        </p>
+      </div>
+    </div>
+  );
+}
+
+const EmployerDashboard = () => {
   const [q, setQ] = useState("");
   const [copied, setCopied] = useState(false);
 
-const fetchWorkers = async (): Promise<ApiResponse<ListWorkersResponse>> => {
-  const res = await api.listWorkers();
+  const fetchWorkers = async (): Promise<ApiResponse<ListWorkersResponse>> => {
+    const res = await api.listWorkers();
 
-  return {
-    ok: res.ok,
-    message: res.message,
-    data: res.data ?? undefined,
+    return {
+      ok: res.ok,
+      message: res.message,
+      data: res.data ?? undefined,
+    };
   };
-};
 
   const { data, isLoading, error, mutate } = useSWR<
     ApiResponse<ListWorkersResponse>
@@ -179,41 +217,4 @@ const fetchWorkers = async (): Promise<ApiResponse<ListWorkersResponse>> => {
     </PortalShell>
   );
 }
-
-function Stat({
-  icon: Icon,
-  label,
-  value,
-  accent,
-  mono,
-}: {
-  icon: any;
-  label: string;
-  value: string;
-  accent?: boolean;
-  mono?: boolean;
-}) {
-  return (
-    <div className="surface-card flex items-center gap-4 p-5">
-      <div
-        className={`flex h-11 w-11 items-center justify-center rounded-xl ${
-          accent ? "bg-red-500/10 text-red-500" : "bg-secondary text-foreground"
-        }`}
-      >
-        <Icon className="h-5 w-5" />
-      </div>
-      <div>
-        <p className="text-xs uppercase tracking-wider text-muted-foreground">
-          {label}
-        </p>
-        <p
-          className={`font-display text-2xl font-bold ${
-            mono ? "font-mono" : ""
-          }`}
-        >
-          {value}
-        </p>
-      </div>
-    </div>
-  );
-}
+export default EmployerDashboard

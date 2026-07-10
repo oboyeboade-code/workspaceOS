@@ -11,7 +11,7 @@ import { Loader2 } from "lucide-react";
 import { useQueryClient } from "@tanstack/react-query";
 
 
-export default function EmployeeLogin() {
+const EmployeeLogin = () => {
   const queryClient = useQueryClient();
   const nav = useNavigate();
   const [email, setEmail] = useState("");
@@ -57,3 +57,5 @@ export default function EmployeeLogin() {
     </AuthShell>
   );
 }
+
+export default EmployeeLogin;

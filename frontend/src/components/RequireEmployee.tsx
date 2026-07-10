@@ -12,7 +12,7 @@ const FullPageLoading = () => {
 }
 const { getMe } = api
 
-export default function RequireEmployee({ children }) {
+const RequireEmployee = ({ children }) => {
   const nav = useNavigate();
   const [allowed, setAllowed] = useState(null);
 
@@ -30,3 +30,5 @@ export default function RequireEmployee({ children }) {
 
   return children;
 }
+
+export default RequireEmployee;

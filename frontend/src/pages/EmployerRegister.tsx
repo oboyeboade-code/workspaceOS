@@ -9,7 +9,7 @@ import { api, generatePassword } from "@/lib/api";
 import { toast } from "sonner";
 import { Loader2, RefreshCw } from "lucide-react";
 
-export default function EmployerRegister() {
+const EmployerRegister = () => {
   const nav = useNavigate();
   const [loading, setLoading] = useState(false);
   const [form, setForm] = useState({
@@ -74,3 +74,5 @@ export default function EmployerRegister() {
     </AuthShell>
   );
 }
+
+export default EmployerRegister;

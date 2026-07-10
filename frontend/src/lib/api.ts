@@ -55,14 +55,14 @@ export type AuthUser = {
 // Helpers
 // ======================================================
 
-function validateEmail(email: string) {
+const validateEmail = (email: string) => {
   return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
 }
 
-async function request<T = unknown>(
+const request = async <T = unknown>(
   endpoint: string,
   options: RequestInit = {}
-): Promise<ApiResponse<T>> {
+): Promise<ApiResponse<T>> => {
   try {
     const res = await fetch(`${API_URL}${endpoint}`, {
       credentials: "include",
@@ -99,6 +99,23 @@ async function request<T = unknown>(
       message: "Network error. Please check your connection.",
     };
   }
+}
+
+// ======================================================
+// Utilities
+// ======================================================
+
+export const generatePassword = (length = 8) => {
+  const chars =
+    "abcdefghijkmnpqrstuvwxyzABCDEFGHJKLMNPQRSTUVWXYZ23456789";
+
+  let out = "";
+
+  for (let i = 0; i < length; i++) {
+    out += chars[Math.floor(Math.random() * chars.length)];
+  }
+
+  return out;
 }
 
 // ======================================================
@@ -311,20 +328,3 @@ export const api = {
     );
   },
 };
-
-// ======================================================
-// Utilities
-// ======================================================
-
-export function generatePassword(length = 8) {
-  const chars =
-    "abcdefghijkmnpqrstuvwxyzABCDEFGHJKLMNPQRSTUVWXYZ23456789";
-
-  let out = "";
-
-  for (let i = 0; i < length; i++) {
-    out += chars[Math.floor(Math.random() * chars.length)];
-  }
-
-  return out;
-}

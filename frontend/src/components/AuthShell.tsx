@@ -3,13 +3,13 @@ import { Link } from "react-router-dom";
 import { Logo } from "@/components/Logo";
 import { ArrowLeft } from "lucide-react";
 
-export function AuthShell({ children, side, kicker, title, subtitle }: {
+export const AuthShell = ({ children, side, kicker, title, subtitle }: {
   children: ReactNode;
   side: "employer" | "employee";
   kicker: string;
   title: string;
   subtitle: string;
-}) {
+}) => {
   return (
     <div className="grid min-h-screen lg:grid-cols-[1fr,1.05fr]">
       {/* Left — form */}
