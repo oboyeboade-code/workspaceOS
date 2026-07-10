@@ -1,5 +1,5 @@
 import { ReactNode } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { Logo } from "@/components/Logo";
 import { Button } from "@/components/ui/button";
 import { LogOut } from "lucide-react";
@@ -8,7 +8,7 @@ import { toast } from "sonner";
 import { useQueryClient } from "@tanstack/react-query";
     
 
-export function PortalShell({ kind, children }: { kind: "employer" | "employee"; children: ReactNode }) {
+export const PortalShell = ({ kind, children }: { kind: "employer" | "employee"; children: ReactNode }) => {
   const queryClient = useQueryClient();
   const nav = useNavigate();
   const onLogout = async () => {
@@ -28,10 +28,7 @@ export function PortalShell({ kind, children }: { kind: "employer" | "employee";
               {kind === "employer" ? "Employer console" : "Employee portal"}
             </span>
           </div>
-          <div className="flex items-center gap-2">
-            {kind === "employer" && (
-              <Link to="/employer"><Button variant="ghost" size="sm">Workers</Button></Link>
-            )}
+          <div className="flex items-center">
             <Button variant="outline" size="sm" onClick={onLogout}>
               <LogOut className="h-4 w-4" /> Sign out
             </Button>

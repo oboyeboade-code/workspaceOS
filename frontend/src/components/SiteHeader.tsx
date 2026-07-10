@@ -30,6 +30,13 @@ export const SiteHeader = () => {
           >
             Pricing
           </a>
+          <a
+            href="#contact"
+            className="text-sm font-medium text-muted-foreground transition-base hover:text-foreground"
+            onClick={() => setMobileOpen(false)}
+          >
+            Contact Us
+          </a>
         </nav>
 
         {/* Desktop Actions */}
@@ -89,6 +96,14 @@ export const SiteHeader = () => {
               onClick={() => setMobileOpen(false)}
             >
               Pricing
+            </a>
+
+            <a
+              href="#contact"
+              className="py-3 text-sm font-medium"
+              onClick={() => setMobileOpen(false)}
+            >
+              Contact Us
             </a>
 
             <div className="mt-4 flex flex-col gap-2">

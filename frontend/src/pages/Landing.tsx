@@ -22,7 +22,6 @@ const contactChannels = [
   {
     icon: Mail,
     label: "Email",
-    // value: "support@workspaceos.app",
     value: "support@workspace",
     description: "We typically reply within a business day.",
     href: "mailto:noreplyworkspaceos@gmail.com",
@@ -281,12 +280,12 @@ const FullPageLoading = ({ text = "Loading..." }: FullPageLoadingProps) => {
       <Loader2 className="h-10 w-10 animate-spin text-primary" />
 
       {text && (
-<p className="mt-4 text-sm font-medium text-foreground/80 tracking-wide relative">
-  <span className="inline-flex items-center gap-2">
-    <span className="h-1.5 w-1.5 rounded-full bg-accent animate-pulse" />
-    {text}
-  </span>
-</p>
+        <p className="mt-4 text-sm font-medium text-foreground/80 tracking-wide relative">
+          <span className="inline-flex items-center gap-2">
+            <span className="h-1.5 w-1.5 rounded-full bg-accent animate-pulse" />
+            {text}
+          </span>
+        </p>
       )}
     </div>
   );

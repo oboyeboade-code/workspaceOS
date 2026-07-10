@@ -8,7 +8,7 @@ import { api } from "@/lib/api";
 import { toast } from "sonner";
 import { Eye, EyeOff, Loader2 } from "lucide-react";
 
-export default function ResetPassword() {
+const ResetPassword = () => {
   const nav = useNavigate();
   const [params] = useSearchParams();
   const token = params.get("token") ?? "";
@@ -130,3 +130,5 @@ export default function ResetPassword() {
     </AuthShell>
   );
 }
+
+export default ResetPassword

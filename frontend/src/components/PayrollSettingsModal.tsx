@@ -11,10 +11,7 @@ import {
 } from "@/components/ui/dialog";
 import { PayrollSettings } from "./PayrollSettings";
 
-export function PayrollSettingsModal({ roleSalaries, mutate }) {
-//   return <PayrollSettings roleSalaries={roleSalaries} mutate={mutate} />;
-// }
-// export function PayrollSettingsModal() {
+export const PayrollSettingsModal = ({ roleSalaries, mutate }) => {
   const [open, setOpen] = useState(false);
 
   return (
@@ -30,16 +27,21 @@ export function PayrollSettingsModal({ roleSalaries, mutate }) {
           <span className="sr-only">Open payroll settings</span>
         </Button>
       </DialogTrigger>
-      <DialogContent className="max-w-2xl">
+      <DialogContent className="max-w-lg">
         <DialogHeader>
-          <DialogTitle>Payroll Settings</DialogTitle>
+          <DialogTitle className="font-display text-2xl">
+            Payroll settings
+          </DialogTitle>
           <DialogDescription>
             Configure salary settings for different roles in your organization.
           </DialogDescription>
         </DialogHeader>
-        <PayrollSettings roleSalaries={roleSalaries} mutate={mutate} />
-        {/* <PayrollSettings /> */}
+        <PayrollSettings
+          roleSalaries={roleSalaries}
+          mutate={mutate}
+          onClose={() => setOpen(false)}
+        />
       </DialogContent>
     </Dialog>
   );
-}
+};

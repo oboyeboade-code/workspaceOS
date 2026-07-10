@@ -13,7 +13,7 @@ const FullPageLoading = () => {
 
 const { getMe } = api;
 
-export default function RequireEmployer({ children }: { children: React.ReactNode }) {
+const RequireEmployer = ({ children }: { children: React.ReactNode }) => {
   const nav = useNavigate();
   const [allowed, setAllowed] = useState<boolean | null>(null);
 
@@ -31,3 +31,5 @@ export default function RequireEmployer({ children }: { children: React.ReactNod
 
   return <>{children}</>;
 }
+
+export default RequireEmployer;

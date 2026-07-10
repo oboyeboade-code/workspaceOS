@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { api } from "@/lib/api";
 const { getMe } = api
 
-export function useAuthRedirect() {
+export const useAuthRedirect = () => {
   const nav = useNavigate();
   const [loading, setLoading] = useState(true);
 

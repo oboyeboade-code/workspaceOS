@@ -8,7 +8,7 @@ import { api } from "@/lib/api";
 import { toast } from "sonner";
 import { CheckCircle2, Loader2, MailCheck } from "lucide-react";
 
-export default function forgotPassword() {
+const ForgotPassword = () => {
   const [params] = useSearchParams();
   const side = (params.get("side") === "employer" ? "employer" : "employee") as "employer" | "employee";
 
@@ -126,3 +126,5 @@ export default function forgotPassword() {
     </AuthShell>
   );
 }
+
+export default ForgotPassword
