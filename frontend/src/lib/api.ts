@@ -375,7 +375,7 @@ export const handleDemoLogin = async ({
     });
 
     // Redirect based on role
-    const route = role === 'employer'? '/employer-dashboard' : '/employee-dashboard';
+    const route = role === 'employer'? '/employer' : '/employee';
     navigate(route, { replace: true });
 
   } catch (err: any) {
