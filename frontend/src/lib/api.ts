@@ -1,5 +1,7 @@
-const API_URL = import.meta.env.VITE_HEROKU_API_URL;
+import { toast } from "sonner";
+import type { NavigateFunction } from "react-router-dom";
 
+const API_URL = import.meta.env.VITE_HEROKU_API_URL;
 // ======================================================
 // Types
 // ======================================================
@@ -327,4 +329,61 @@ export const api = {
       }
     );
   },
+};
+
+
+// Handles demo login via FAB: logs in with hardcoded credentials for employer/employee
+// and redirects to the appropriate dashboard. Toasts are positioned bottom-left to appear near FAB.
+
+type DemoRole = "employer" | "employee";
+
+const DEMO_CREDS = {
+  employer: { email: 'demo-employer@workspace.com', password: '12348765' },
+  employee: { email: 'demo-employee@workspace.com', password: '12348765' },
+} as const
+
+type DemoLoginParams = {
+  role: DemoRole;
+  setLoading: (v: boolean) => void;
+  navigate: NavigateFunction;
+};
+
+export const handleDemoLogin = async ({
+  role,
+  setLoading,
+  navigate,
+}: DemoLoginParams) => {
+  try {
+    setLoading(true);
+    const creds = DEMO_CREDS[role];
+
+    const res = role === 'employer'
+   ? await api.loginEmployer(creds.email, creds.password)
+      : await api.loginEmployee(creds.email, creds.password);
+
+    if (!res.ok) {
+      toast.error("Demo login failed", {
+        description: res.message || "Could not log in as demo user",
+        position: "bottom-left",
+      });
+      return;
+    }
+
+    toast.success("Welcome to demo", {
+      description: `Logged in as ${role}`,
+      position: "bottom-left",
+    });
+
+    // Redirect based on role
+    const route = role === 'employer'? '/employer-dashboard' : '/employee-dashboard';
+    navigate(route, { replace: true });
+
+  } catch (err: any) {
+    toast.error("Error", {
+      description: err.message || "Something went wrong",
+      position: "bottom-left",
+    });
+  } finally {
+    setLoading(false);
+  }
 };

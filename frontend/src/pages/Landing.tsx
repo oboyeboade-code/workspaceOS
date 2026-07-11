@@ -1,9 +1,12 @@
-import { Link } from "react-router-dom";
-import { ArrowRight, Users, ShieldCheck, KeyRound, Sparkles, Building2, BadgeCheck, Workflow, LineChart, Mail, MessageCircle, Twitter, Github, Linkedin, MapPin } from "lucide-react";
+import { Link, useNavigate } from "react-router-dom";
+import { ArrowRight, Users, ShieldCheck, KeyRound, Building2, BadgeCheck, Workflow, LineChart, Mail, MessageCircle, Twitter, Github, Linkedin, MapPin } from "lucide-react";
 import { SiteHeader } from "@/components/SiteHeader";
+import { GuestLoginFab } from "@/components/GuestLoginFab";
 import { Button } from "@/components/ui/button";
 import { useAuthRedirect } from "@/hooks/useAuthRedirect";
 import { Loader2 } from "lucide-react"
+import { useState } from "react";
+import { handleDemoLogin } from "@/lib/api";
 
 const features = [
   { icon: Users, title: "Onboard in seconds", text: "Create employee accounts with auto-generated, copy-to-clipboard credentials. No spreadsheets, no friction." },
@@ -54,18 +57,30 @@ const contactChannels = [
 ];
 
 const Landing = () => {
+  const navigate = useNavigate();
+  const [loading, setLoading] = useState(false);
+
+  const demoLogin = (role: 'employer' | 'employee') => {
+    handleDemoLogin({
+      role,
+      setLoading,
+      navigate,
+    });
+  };
+
   return (
     <div className="min-h-screen bg-background">
       <SiteHeader />
-
+      <GuestLoginFab
+        disabled={loading}
+        onEmployer={() => demoLogin('employer')}
+        onEmployee={() => demoLogin('employee')}
+      />
       {/* HERO */}
       <section className="relative overflow-hidden bg-hero">
         <div className="grid-bg absolute inset-0 opacity-60" aria-hidden />
         <div className="container-app relative grid items-center gap-12 py-20 lg:grid-cols-[1.1fr,1fr] lg:py-32">
           <div className="animate-float-up">
-            {/* <span className="chip-accent mb-6">
-              <Sparkles className="h-3.5 w-3.5" />v2 — now with cross-org admin codes
-            </span> */}
             <h1 className="font-display text-5xl font-bold leading-[1.05] tracking-tight text-foreground sm:text-6xl lg:text-7xl">
               The <span className="text-gradient-emerald">workforce OS</span> built for fast-moving employers.
             </h1>
