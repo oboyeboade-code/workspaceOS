@@ -217,4 +217,4 @@ const EmployerDashboard = () => {
     </PortalShell>
   );
 }
-export default EmployerDashboard
+export default EmployerDashboard;

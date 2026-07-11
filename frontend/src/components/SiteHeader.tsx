@@ -8,36 +8,39 @@ export const SiteHeader = () => {
   const [mobileOpen, setMobileOpen] = useState(false);
 
   return (
-    <header className="sticky top-0 z-40 border-b border-border/60 bg-background/80 backdrop-blur-xl"> <div className="container-app flex h-16 items-center justify-between"><div className="flex items-center gap-2"><Logo /></div>
-
-        {/* Desktop Nav */}
-        <nav className="hidden items-center gap-8 md:flex">
-          <a
-            href="#features"
-            className="text-sm font-medium text-muted-foreground transition-base hover:text-foreground"
-          >
-            Product
-          </a>
-          <a
-            href="#how"
-            className="text-sm font-medium text-muted-foreground transition-base hover:text-foreground"
-          >
-            How it works
-          </a>
-          <a
-            href="#pricing"
-            className="text-sm font-medium text-muted-foreground transition-base hover:text-foreground"
-          >
-            Pricing
-          </a>
-          <a
-            href="#contact"
-            className="text-sm font-medium text-muted-foreground transition-base hover:text-foreground"
-            onClick={() => setMobileOpen(false)}
-          >
-            Contact Us
-          </a>
-        </nav>
+    <header className="sticky top-0 z-40 border-b border-border/60 bg-background/80 backdrop-blur-xl">
+      <div className="container-app flex h-16 items-center justify-between">
+        <div className="flex items-center gap-10">
+          <Logo />
+          {/* Desktop Nav */}
+          <nav className="hidden items-center gap-2 md:flex">
+            <a
+              href="#features"
+              className="text-sm font-medium text-muted-foreground transition-base hover:text-foreground"
+            >
+              Product
+            </a>
+            <a
+              href="#how"
+              className="text-sm font-medium text-muted-foreground transition-base hover:text-foreground"
+            >
+              How it works
+            </a>
+            <a
+              href="#pricing"
+              className="text-sm font-medium text-muted-foreground transition-base hover:text-foreground"
+            >
+              Pricing
+            </a>
+            <a
+              href="#contact"
+              className="text-sm font-medium text-muted-foreground transition-base hover:text-foreground"
+              onClick={() => setMobileOpen(false)}
+            >
+              Contact Us
+            </a>
+          </nav>
+        </div>
 
         {/* Desktop Actions */}
         <div className="hidden items-center gap-2 md:flex">
