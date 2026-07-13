@@ -1,124 +1,163 @@
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState, useCallback } from "react";
 import { Briefcase, UserRound, X, LogIn } from "lucide-react";
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
+import { cn } from "@/lib/utils";
 
-type Props = {
+interface GuestLoginFabProps {
   disabled?: boolean;
   onEmployer?: () => void;
   onEmployee?: () => void;
-};
+}
 
-export const GuestLoginFab = ({ disabled, onEmployer, onEmployee }: Props) => {
-  const [open, setOpen] = useState(false);
+/**
+ * GuestLoginFab Component - Fully Responsive & Standardized
+ * 
+ * Responsiveness Strategy:
+ * - Desktop (sm+): Expands horizontally to the left of the FAB.
+ * - Mobile (<sm): Expands vertically ABOVE the FAB to avoid horizontal overflow and finger obstruction.
+ */
+export const GuestLoginFab = ({ 
+  disabled = false, 
+  onEmployer, 
+  onEmployee 
+}: GuestLoginFabProps) => {
+  const [isOpen, setIsOpen] = useState(false);
   const containerRef = useRef<HTMLDivElement>(null);
 
+  const handleClose = useCallback(() => setIsOpen(false), []);
+
   useEffect(() => {
-    if (!open) return;
-    const handle = (e: MouseEvent) => {
-      if (containerRef.current && !containerRef.current.contains(e.target as Node)) {
-        setOpen(false);
+    if (!isOpen) return;
+
+    const handleClickOutside = (event: MouseEvent) => {
+      if (containerRef.current && !containerRef.current.contains(event.target as Node)) {
+        handleClose();
       }
     };
-    const onEsc = (e: KeyboardEvent) => e.key === "Escape" && setOpen(false);
-    document.addEventListener("mousedown", handle);
-    document.addEventListener("keydown", onEsc);
-    return () => {
-      document.removeEventListener("mousedown", handle);
-      document.removeEventListener("keydown", onEsc);
+
+    const handleEscapeKey = (event: KeyboardEvent) => {
+      if (event.key === "Escape") handleClose();
     };
-  }, [open]);
+
+    document.addEventListener("mousedown", handleClickOutside);
+    document.addEventListener("keydown", handleEscapeKey);
+    
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+      document.removeEventListener("keydown", handleEscapeKey);
+    };
+  }, [isOpen, handleClose]);
+
+  const handleAction = (callback?: () => void) => {
+    handleClose();
+    callback?.();
+  };
 
   return (
     <TooltipProvider delayDuration={200}>
       <div
         ref={containerRef}
-        className="fixed bottom-4 right-4 sm:bottom-6 sm:right-6 z-50 flex items-center justify-end px-4 sm:px-0"
+        className={cn(
+          "fixed z-50 flex flex-col sm:flex-row items-end sm:items-center justify-end transition-all duration-300",
+          "bottom-4 right-4 sm:bottom-8 sm:right-8"
+        )}
+        role="region"
+        aria-label="Demo login options"
       >
-        {/* Expanded Cards Container - Responsive */}
+        {/* Options Panel - Adaptive Layout */}
         <div
-          className={[
-            "flex flex-col sm:flex-row items-stretch sm:items-center gap-2 sm:gap-0 overflow-hidden rounded-2xl sm:rounded-full",
-            "border border-white/40 shadow-[0_10px_40px_-10px_rgba(0,0,0,0.25)]",
+          className={cn(
+            "flex flex-col sm:flex-row items-stretch sm:items-center overflow-hidden",
+            "border border-white/40 shadow-2xl",
             "bg-white/30 backdrop-blur-xl backdrop-saturate-150",
             "transition-all duration-500 ease-[cubic-bezier(0.22,1,0.36,1)]",
-            open
-              ? "opacity-100 visible sm:w-auto w-full sm:pl-2 sm:pr-16"
-              : "opacity-0 invisible sm:visible sm:w-0 sm:pl-0 sm:pr-16 pointer-events-none sm:pointer-events-auto",
-          ].join(" ")}
-          style={{
-            height: open ? "auto" : "0",
-            minHeight: open ? "auto" : "0",
-            paddingTop: open ? "0.5rem" : "0",
-            paddingBottom: open ? "0.5rem" : "0",
-          }}
+            // Layout & Shape
+            "rounded-[24px] sm:rounded-full mb-3 sm:mb-0",
+            // Animation States
+            isOpen 
+              ? "opacity-100 translate-y-0 sm:translate-x-0 scale-100 sm:w-auto w-48 p-1.5 sm:pr-20" 
+              : "opacity-0 translate-y-10 sm:translate-y-0 sm:translate-x-10 scale-95 w-0 h-0 sm:h-auto pointer-events-none"
+          )}
         >
-          <div
-            className={[
-              "flex flex-col sm:flex-row w-full items-stretch sm:items-center gap-2 transition-all duration-300",
-              open
-                ? "translate-y-0 sm:translate-x-0 opacity-100 delay-150"
-                : "-translate-y-2 sm:-translate-x-4 opacity-0 pointer-events-none",
-            ].join(" ")}
-          >
-            <button
-              type="button"
+          <div className={cn(
+            "flex flex-col sm:flex-row w-full gap-1.5 transition-all duration-300",
+            isOpen ? "opacity-100 delay-200" : "opacity-0"
+          )}>
+            <DemoLoginButton
+              icon={<Briefcase className="h-4 w-4" />}
+              label="Employer"
+              onClick={() => handleAction(onEmployer)}
               disabled={disabled}
-              onClick={() => {
-                setOpen(false);
-                onEmployer?.();
-              }}
-              className="flex flex-1 items-center justify-center sm:justify-start gap-2 rounded-lg sm:rounded-full border border-white/50 bg-white/40 px-4 py-3 sm:px-3 sm:py-2 text-sm font-medium text-foreground shadow-sm backdrop-blur transition hover:bg-white/70 hover:shadow-md disabled:opacity-50 disabled:cursor-not-allowed whitespace-nowrap"
-            >
-              <Briefcase className="h-4 w-4 shrink-0" />
-              <span className="truncate">Employer</span>
-            </button>
-            <button
-              type="button"
+            />
+            <DemoLoginButton
+              icon={<UserRound className="h-4 w-4" />}
+              label="Employee"
+              onClick={() => handleAction(onEmployee)}
               disabled={disabled}
-              onClick={() => {
-                setOpen(false);
-                onEmployee?.();
-              }}
-              className="flex flex-1 items-center justify-center sm:justify-start gap-2 rounded-lg sm:rounded-full border border-white/50 bg-white/40 px-4 py-3 sm:px-3 sm:py-2 text-sm font-medium text-foreground shadow-sm backdrop-blur transition hover:bg-white/70 hover:shadow-md disabled:opacity-50 disabled:cursor-not-allowed whitespace-nowrap"
-            >
-              <UserRound className="h-4 w-4 shrink-0" />
-              <span className="truncate">Employee</span>
-            </button>
+            />
           </div>
         </div>
 
-        {/* FAB Button - Always Visible */}
+        {/* Main Toggle Button */}
         <Tooltip>
           <TooltipTrigger asChild>
             <button
               type="button"
-              aria-label={open ? "Close demo login" : "Demo login"}
-              aria-expanded={open}
-              onClick={() => setOpen((v) => !v)}
+              aria-label={isOpen ? "Close demo login menu" : "Open demo login menu"}
+              aria-expanded={isOpen}
+              aria-haspopup="true"
+              onClick={() => setIsOpen((prev) => !prev)}
               disabled={disabled}
-              className={[
+              className={cn(
                 "relative flex h-14 w-14 sm:h-16 sm:w-16 items-center justify-center rounded-full",
                 "border border-white/50 bg-white/40 backdrop-blur-xl backdrop-saturate-150",
-                "shadow-[0_10px_30px_-10px_rgba(0,0,0,0.35)] transition-transform duration-300",
+                "shadow-xl transition-all duration-300",
                 "hover:scale-105 active:scale-95 disabled:opacity-50 disabled:cursor-not-allowed",
-                "sm:absolute sm:right-0 flex-shrink-0",
-              ].join(" ")}
-            >
-              {!open && !disabled && (
-                <span className="pointer-events-none absolute inset-0 animate-ping rounded-full bg-primary/20" />
+                "sm:absolute sm:right-0 z-10"
               )}
-              <span className="relative flex h-10 w-10 items-center justify-center rounded-full bg-primary text-primary-foreground shadow-inner">
-                {open ? <X className="h-5 w-5" /> : <LogIn className="h-5 w-5" />}
-              </span>
+            >
+              {!isOpen && !disabled && (
+                <span className="absolute inset-0 animate-ping rounded-full bg-primary/20" />
+              )}
+              <div className="relative flex h-10 w-10 items-center justify-center rounded-full bg-primary text-primary-foreground shadow-lg">
+                {isOpen ? <X className="h-5 w-5 transition-transform duration-300 rotate-0" /> : <LogIn className="h-5 w-5" />}
+              </div>
             </button>
           </TooltipTrigger>
-          <TooltipContent side="left" className="bg-foreground text-background">
-            <p className="text-xs">Demo login — skip registration</p>
+          <TooltipContent side="left" className="hidden sm:block bg-popover text-popover-foreground border-none shadow-md">
+            <p className="text-xs font-medium">Quick Demo Login</p>
           </TooltipContent>
         </Tooltip>
       </div>
     </TooltipProvider>
   );
 };
+
+interface DemoLoginButtonProps {
+  icon: React.ReactNode;
+  label: string;
+  onClick: () => void;
+  disabled: boolean;
+}
+
+const DemoLoginButton = ({ icon, label, onClick, disabled }: DemoLoginButtonProps) => (
+  <button
+    type="button"
+    disabled={disabled}
+    onClick={onClick}
+    className={cn(
+      "group flex items-center gap-3 px-4 py-3 sm:py-2",
+      "rounded-[18px] sm:rounded-full border border-white/50 bg-white/50",
+      "text-sm font-semibold text-foreground/90",
+      "transition-all duration-200 hover:bg-white/80 active:scale-[0.97]",
+      "disabled:opacity-50 disabled:cursor-not-allowed whitespace-nowrap"
+    )}
+  >
+    <span className="flex h-8 w-8 items-center justify-center rounded-full bg-white/60 text-primary shadow-sm group-hover:scale-110 transition-transform duration-200">
+      {icon}
+    </span>
+    <span className="flex-1 text-left">{label}</span>
+  </button>
+);
 
 export default GuestLoginFab;
