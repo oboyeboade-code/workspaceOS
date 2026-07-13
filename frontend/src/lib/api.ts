@@ -364,14 +364,12 @@ export const handleDemoLogin = async ({
     if (!res.ok) {
       toast.error("Demo login failed", {
         description: res.message || "Could not log in as demo user",
-        position: "bottom-left",
       });
       return;
     }
 
     toast.success("Welcome to demo", {
       description: `Logged in as ${role}`,
-      position: "bottom-left",
     });
 
     // Redirect based on role
@@ -381,7 +379,6 @@ export const handleDemoLogin = async ({
   } catch (err: any) {
     toast.error("Error", {
       description: err.message || "Something went wrong",
-      position: "bottom-left",
     });
   } finally {
     setLoading(false);
